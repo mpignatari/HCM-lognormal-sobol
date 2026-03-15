@@ -179,9 +179,9 @@ apollo_randCoeff <- function(apollo_beta, apollo_inputs){
   randcoeff <- list()
   
   ## Bottom-level LVs: Transcen and Conserve → can simplify as fixed.
-  ##In Mplus, they estimate variances v1–v5 for Climate, Relation, Anthro, Transcen, Conserve. In your Apollo code, you fix the variance of the error term of the structural equation (the part of each LV that cannot be explained by the other LVs) of each LV disturbance to 1 via d$eta_* ~ N(0,1) → this is the structural error.Here each eta_* draw has variance 1 by construction, so you’re fixing the innovation variances to 1 and letting the measurement side carry the scale.
+  ##In Mplus, they estimate variances v1–v5 for Climate, Relation, Anthro, Transcen, Conserve. In Apollo code, fix the variance of the error term of the structural equation (the part of each LV that cannot be explained by the other LVs) of each LV disturbance to 1 via d$eta_* ~ N(0,1) → this is the structural error.Here each eta_* draw has variance 1 by construction, so fixing the innovation variances to 1 and letting the measurement side carry the scale.
  # and no scale parameter on those disturbances.That’s fine – it just means the scale of each LV is partly set by these innovations plus the measurement parameters, instead of by free v1–v5.
-  ##Mplus explicitly has Conserve with Transcen (c) (a free covariance). In your Apollo code, d$eta_trans and d$eta_conserve are independent draws, so corr(Transcen, Conserve) = 0 by construction.
+  ##Mplus explicitly has Conserve with Transcen (c) (a free covariance). In Apollo code, d$eta_trans and d$eta_conserve are independent draws, so corr(Transcen, Conserve) = 0 by construction.
   
   #Self-transcendence and Conservation are exogenous latent factors (ξ’s).They are not predicted by other LVs, but they are still random variables: the model estimates their variances and covariance (v4, v5, and c in the Mplus syntax). Climate, Relation, Anthro are endogenous latent factors (η’s), with structural equations and innovation variances (w1–w3).The phrase “can simplify as fixed” in the comment should really be read as “no structural equation; only measurement model and variance” — not “deterministic, same value for everyone”.
   
@@ -558,12 +558,12 @@ beta_cost_med_hat  <- mean(beta_cost_med_sim)
 beta_cost_mean_hat <- mean(beta_cost_mean_sim)
 beta_cost_sd_hat   <- mean(beta_cost_sd_sim)
 
-# Standard errors (what you report in the table)
+# Standard errors (what report in the table)
 se_beta_cost_med   <- sd(beta_cost_med_sim)
 se_beta_cost_mean  <- sd(beta_cost_mean_sim)
 se_beta_cost_sd    <- sd(beta_cost_sd_sim)
 
-# Nice summary table for your paper
+# Nice summary table for paper
 cost_moments <- cbind(
   estimate = c(beta_cost_med_hat,  beta_cost_mean_hat,  beta_cost_sd_hat),
   se       = c(se_beta_cost_med,   se_beta_cost_mean,   se_beta_cost_sd)
